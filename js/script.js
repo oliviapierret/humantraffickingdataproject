@@ -317,6 +317,111 @@ function activatePlatformCards() {
 window.addEventListener('scroll', activatePlatformCards);
 window.addEventListener('load', activatePlatformCards);
 
+js/script.js:
+ // FADE-IN ANIMATION ON SCROLL
+function checkFadeIn() {
+    const elements = document.querySelectorAll('.fade-in');
+    elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        if (rect.top < windowHeight * 0.75) {
+            el.classList.add('visible');
+        }
+    });
+}
+
+// ROLLING NUMBER EFFECT (for sticky section)
+function updateRollingNumber() {
+    const numberEl = document.getElementById('rollingNumber');
+    const scrolled = window.scrollY;
+    const stickyStart = document.querySelector('.sticky-section').offsetTop;
+    const progress = Math.max(0, scrolled - stickyStart) / 1000;
+    
+    // Replace [XXX] with your target number
+    const targetNumber = 21865; 
+    const currentNumber = Math.min(Math.floor(progress * targetNumber), targetNumber);
+    numberEl.textContent = [${currentNumber}];
+}
+
+// --- CALENDAR FADE-IN WI
+
+// --- NEW SILHOUETTE VISUALIZATION LOGIC ---
+
+// Define the number of silhouettes to display. 
+// A number that fits well on the screen is around 100.
+const NUM_SILHOUETTES = 100;
+
+function setupSilhouettes() {
+    const lineContainer = document.getElementById('silhouetteLine');
+    if (!lineContainer) return;
+
+    // Only create them once
+    if (lineContainer.children.length === 0) {
+        for (let i = 0; i < NUM_SILHOUETTES; i++) {
+            const figure = document.createElement('div');
+            figure.className = 'silhouette-figure';
+            // Custom data attribute to make it easier to select later
+            figure.dataset.index = i; 
+            lineContainer.appendChild(figure);
+        }
+    }
+}
+
+function checkSilhouetteScroll() {
+    const container = document.querySelector('.silhouette-container');
+    const figures = document.querySelectorAll('.silhouette-figure');
+    
+    if (!container || figures.length === 0) return;
+
+    const rect = container.getBoundingClientRect();
+    const containerHeight = container.offsetHeight;
+
+    // Calculate the scroll progress within the visualization container.
+    // The animation starts when the bottom of the container hits the top of the viewport (progress 0)
+    // and ends when the top of the container hits the bottom of the viewport (progress 1).
+    // The visualization is designed to span a long scroll distance (100vh of the container).
+    let progress = 1 - (rect.bottom / (window.innerHeight + containerHeight));
+
+    // Clamp progress between 0 and 1
+    progress = Math.min(1, Math.max(0, progress));
+
+    // Calculate how many silhouettes should be visible based on scroll progress
+    const visibleCount = Math.floor(progress * figures.length);
+
+    figures.forEach((figure, index) => {
+        if (index < visibleCount) {
+            // Silhouette is visible
+            figure.style.opacity = '1';
+            figure.style.transform = 'scale(1)';
+        } else {
+            // Silhouette is hidden
+            figure.style.opacity = '0';
+            figure.style.transform = 'scale(0.8)';
+        }
+    });
+}
+
+// Run setup on page load
+document.addEventListener('DOMContentLoaded', () => {
+    setupSilhouettes();
+    checkFadeIn();
+});
+
+
+// Update the main scroll listener to include the new logic
+window.addEventListener('scroll', () => {
+    checkFadeIn();
+    updateRollingNumber();
+    checkSilhouetteScroll(); // <-- NEW LINE
+});
+
+// Also run once on load to set the initial state
+window.addEventListener('load', () => {
+    checkFadeIn();
+    updateRollingNumber();
+    checkSilhouetteScroll(); // <-- NEW LINE
+});
+
 
 
 
