@@ -22,19 +22,22 @@ function updateRollingNumber() {
     numberEl.textContent = `[${currentNumber}]`;
 }
 
-// ⭐ ADDED FOR SILHOUETTES ⭐
+// SILHOUETTE ANIMATION 
 function checkSilhouettes() {
     const container = document.querySelector('.silhouette-container');
     if (!container) return;
 
+    const silhouettes = container.querySelectorAll('.silhouette');
     const rect = container.getBoundingClientRect();
     const windowHeight = window.innerHeight;
 
     if (rect.top < windowHeight * 0.8) {
-        container.classList.add('silhouette-visible');
+        silhouettes.forEach((sil, index) => {
+            sil.style.transitionDelay = `${index * 0.15}s`;  // stagger
+            sil.classList.add('visible');
+        });
     }
 }
-// ⭐ END ADDED ⭐
 
 
 // --- CALENDAR FADE-IN WITH IMAGE BACKGROUNDS ---
