@@ -1052,3 +1052,29 @@ section .content h2 {
     z-index: 10;
     background-image: url('../visuals/mountain.png');
 }
+
+/* ====== Red Sihouette Section ====== */
+.silhouette-scroll-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0 3rem 0;
+    overflow: hidden;
+}
+
+.silhouette-container {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.silhouette {
+    width: 50px;
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+.silhouette-visible .silhouette {
+    opacity: 1;
+    transform: translateX(0);
+}
