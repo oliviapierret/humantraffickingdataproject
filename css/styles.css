@@ -1078,3 +1078,16 @@ section .content h2 {
     opacity: 1;
     transform: translateY(0);
 }
+/* MAP */
+.map-visual {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.map-visual img {
+    width: 80%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 8px;
+}
+
